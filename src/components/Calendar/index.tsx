@@ -76,13 +76,13 @@ export function Calendar({ onDateSelected, selectedDate }: IPropsCalendar) {
       return lastDayInCurrentMonth.add(i + 1, 'day')
     })
     const calendarDays = [
-      ...previousMonthFillArray.map(date => {
+      ...previousMonthFillArray.map((date) => {
         return { date, disabled: true }
       }),
-      ...daysInMonthArray.map(date => {
+      ...daysInMonthArray.map((date) => {
         return { date, disabled: date.endOf('day').isBefore(new Date()) }
       }),
-      ...nextMonthFillArray.map(date => {
+      ...nextMonthFillArray.map((date) => {
         return { date, disabled: true }
       }),
     ]
@@ -106,8 +106,6 @@ export function Calendar({ onDateSelected, selectedDate }: IPropsCalendar) {
     return calendarWeeks
   }, [currentDate])
 
-  console.log(calendarWeeks)
-
   return (
     <CalendarContainer>
       <CalendarHeader>
@@ -126,7 +124,7 @@ export function Calendar({ onDateSelected, selectedDate }: IPropsCalendar) {
       <CalendarBody>
         <thead>
           <tr>
-            {shortWeekDays.map(weekDay => (
+            {shortWeekDays.map((weekDay) => (
               <th key={weekDay}>{weekDay}.</th>
             ))}
           </tr>
