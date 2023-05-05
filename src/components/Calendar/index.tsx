@@ -26,6 +26,7 @@ type CalendarWeeks = IPropsCalendarWeek[]
 
 interface IPropsBlockedDates {
   blockedWeekDays: number[]
+  blockedDates: number[]
 }
 
 interface IPropsCalendar {
@@ -61,7 +62,7 @@ export function Calendar({ onDateSelected, selectedDate }: IPropsCalendar) {
       const response = await api.get(`/users/${username}/blocked-dates`, {
         params: {
           year: currentDate.get('year'),
-          month: currentDate.get('month'),
+          month: currentDate.get('month') + 1,
         },
       })
       return response.data
@@ -101,18 +102,19 @@ export function Calendar({ onDateSelected, selectedDate }: IPropsCalendar) {
       return lastDayInCurrentMonth.add(i + 1, 'day')
     })
     const calendarDays = [
-      ...previousMonthFillArray.map((date) => {
+      ...previousMonthFillArray.map(date => {
         return { date, disabled: true }
       }),
-      ...daysInMonthArray.map((date) => {
+      ...daysInMonthArray.map(date => {
         return {
           date,
           disabled:
             date.endOf('day').isBefore(new Date()) ||
-            blockedWeekDays?.blockedWeekDays.includes(date.get('day')),
+            blockedWeekDays?.blockedWeekDays.includes(date.get('day')) ||
+            blockedWeekDays.blockedDates.includes(date.get('date')),
         }
       }),
-      ...nextMonthFillArray.map((date) => {
+      ...nextMonthFillArray.map(date => {
         return { date, disabled: true }
       }),
     ]
@@ -154,7 +156,7 @@ export function Calendar({ onDateSelected, selectedDate }: IPropsCalendar) {
       <CalendarBody>
         <thead>
           <tr>
-            {shortWeekDays.map((weekDay) => (
+            {shortWeekDays.map(weekDay => (
               <th key={weekDay}>{weekDay}.</th>
             ))}
           </tr>
