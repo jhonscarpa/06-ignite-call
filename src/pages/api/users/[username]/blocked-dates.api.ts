@@ -35,9 +35,9 @@ export default async function handle(
       user_id: user.id,
     },
   })
-  const blockedWeekDays = [0, 1, 2, 3, 4, 5, 6].filter(weekDay => {
+  const blockedWeekDays = [0, 1, 2, 3, 4, 5, 6].filter((weekDay) => {
     return !availableWeekDays.some(
-      availableWeekDay => availableWeekDay.week_day === weekDay,
+      (availableWeekDay) => availableWeekDay.week_day === weekDay,
     )
   })
   const blockedDatesRaw: Array<{ date: number }> = await prisma.$queryRaw`
@@ -58,7 +58,7 @@ export default async function handle(
       
     HAVING amount >= size
   `
-  const blockedDates = blockedDatesRaw.map(item => item.date)
+  const blockedDates = blockedDatesRaw.map((item) => item.date)
 
   return res.json({ blockedWeekDays, blockedDates })
 }
