@@ -69,6 +69,9 @@ export function Calendar({ onDateSelected, selectedDate }: IPropsCalendar) {
   )
 
   const calendarWeeks = useMemo(() => {
+    if (!blockedWeekDays) {
+      return []
+    }
     const daysInMonthArray = Array.from({
       length: currentDate.daysInMonth(),
     }).map((_, i) => {
@@ -98,10 +101,10 @@ export function Calendar({ onDateSelected, selectedDate }: IPropsCalendar) {
       return lastDayInCurrentMonth.add(i + 1, 'day')
     })
     const calendarDays = [
-      ...previousMonthFillArray.map(date => {
+      ...previousMonthFillArray.map((date) => {
         return { date, disabled: true }
       }),
-      ...daysInMonthArray.map(date => {
+      ...daysInMonthArray.map((date) => {
         return {
           date,
           disabled:
@@ -109,7 +112,7 @@ export function Calendar({ onDateSelected, selectedDate }: IPropsCalendar) {
             blockedWeekDays?.blockedWeekDays.includes(date.get('day')),
         }
       }),
-      ...nextMonthFillArray.map(date => {
+      ...nextMonthFillArray.map((date) => {
         return { date, disabled: true }
       }),
     ]
@@ -151,7 +154,7 @@ export function Calendar({ onDateSelected, selectedDate }: IPropsCalendar) {
       <CalendarBody>
         <thead>
           <tr>
-            {shortWeekDays.map(weekDay => (
+            {shortWeekDays.map((weekDay) => (
               <th key={weekDay}>{weekDay}.</th>
             ))}
           </tr>
